@@ -68,6 +68,13 @@ T Pritree<T>::popHead()
   }
 }
 
+//get the length of queue
+template<class T>
+int Pritree<T>::getSize()
+{
+  return this->length;
+}
+
 //make the length of array 2 times than origin
 //need test as it size 11
 template<class T>
@@ -75,7 +82,7 @@ void Pritree<T>::ifResize()
 {
   if(this->length + 1 > this->maxLength)
   {
-    T temp[this->length];
+    T temp[this->length+1];
     for(int counter = 1 ; counter <= this->length; counter++)
     {
       temp[counter] = this->btree[counter];

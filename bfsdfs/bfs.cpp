@@ -153,10 +153,10 @@ bool Graph::addAllVertex(int fromVertexId_in, int toVertexId_in)
 		newVertex1->setNextVertex(newVertex2);
 		headVertex = newVertex1;
 		return true;
-	}	
+	}
 	else
 	{
-		Vertex *fromVertex = NULL, *toVertex = NULL, 
+		Vertex *fromVertex = NULL, *toVertex = NULL,
 				*vertexptr = headVertex, *preVertex = NULL;
 		while(vertexptr != NULL)
 		{
@@ -205,7 +205,7 @@ bool Graph::addAllVertex(int fromVertexId_in, int toVertexId_in)
 */
 bool Graph::addOneEdge(int fromVertexId_in, int toVertexId_in)
 {
-	Vertex *fromVertex = NULL, *toVertex = NULL, 
+	Vertex *fromVertex = NULL, *toVertex = NULL,
 				*vertexptr = headVertex;
 	while(vertexptr != NULL)
 	{
@@ -311,9 +311,9 @@ bool Graph::dfs(int startVertex_in)
 	reset();
 	Vertex *vertexPtr = headVertex;
 	int time = 0;
-	
+
 	cout<<"DFS results: ";
-	
+
 	while(vertexPtr != NULL)
 	{
 		if(vertexPtr->getVertexId() == startVertex_in)
@@ -370,7 +370,7 @@ void Graph::dfsSub(Vertex* vertexPtr, int &time)
 	{
 		vertexp->setNextVertex(topologicalSort);
 		this->topologicalSort = vertexp;
-	}	
+	}
 	return;
 }
 
@@ -415,7 +415,7 @@ void Graph::stronglyConnectCompents(int startVertex_in )
 		}
 		temp = temp->getNextVertex();
 	}
-	
+
 	temp = topologicalSort;
 	int time = 0;
 	while(temp != NULL)
@@ -447,6 +447,6 @@ void Graph::exchangePointerForGT()
 	{
 		Vertex* temp = headVertex;
 		headVertex = GT;
-		GT = headVertex;
+		GT = temp;
 	}
 }

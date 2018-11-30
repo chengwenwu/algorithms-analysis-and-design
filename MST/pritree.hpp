@@ -19,6 +19,9 @@ public:
 
   //get it root element, and delete it.
   T popHead();
+
+  //get the length of queue
+  int getSize();
 private:
   T* btree;//it will be used as a array.
   int length;
