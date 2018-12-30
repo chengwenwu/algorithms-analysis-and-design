@@ -1,6 +1,8 @@
 #include <math.h>
 #include "pritree.hpp"
+#include <limits.h>
 using namespace std;
+
 enum Color{white, gray, black};
 enum TypeOfGraph{directed, undirected};
 class Vertex;
@@ -64,7 +66,7 @@ public:
 	Graph();
 	void setHeadVertex(Vertex* headVertex_in);
 	Vertex* getHeadVertex()const;
-	bool addEdge(int fromId, int toId, float weight_in = MAXFLOAT);
+	bool addEdge(int fromId, int toId, float weight_in = FLT_MAX);
 
 	void setGraphType(TypeOfGraph graphType_in);
 	bool bfs(int startVertex_in);
@@ -92,7 +94,7 @@ private:
 	*according to the graph type add edge
 	*before this step all vertexes have added to the vertexlist
 	*/
-	bool addOneEdge(int fromVertexId_in, int toVertexId_in, float weight_in = MAXFLOAT);
+	bool addOneEdge(int fromVertexId_in, int toVertexId_in, float weight_in = FLT_MAX);
 	bool bfsSub(int startVertex_in);
 	void dfsSub(Vertex* vertexPtr, int &time);
 	void exchangePointerForGtrans();

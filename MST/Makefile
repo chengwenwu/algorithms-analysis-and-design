@@ -7,6 +7,6 @@ graph.o:graph.cpp graph.hpp pritree.hpp
 pritree.o: pritree.cpp pritree.hpp
 	g++ -c -g  pritree.cpp pritree.hpp
 clean:
-	rm *.o
-	rm *.gch
-	rm main
+	del *.o
+	del *.gch
+	del main.exe

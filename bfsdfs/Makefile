@@ -6,8 +6,7 @@ bfs.o:bfs.hpp bfs.cpp
 	g++ -c -g bfs.hpp bfs.cpp 
 
 clean:
-	rm -f *.o
-	rm -f *.gch
-	rm -f *.out
-	rm main
+	del -f *.o
+	del -f *.gch
+	del main.exe
 	
