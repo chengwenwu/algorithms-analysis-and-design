@@ -1,5 +1,6 @@
 #ifndef PRITREE_HPP
 #include <iostream>
+#include <float.h>
 using namespace std;
 template<class T>
 class Pritree{

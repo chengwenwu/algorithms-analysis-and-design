@@ -1,6 +1,7 @@
 #include <math.h>
 #include "pritree.hpp"
 #include <limits.h>
+#include <float.h>
 using namespace std;
 
 enum Color{white, gray, black};
