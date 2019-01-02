@@ -1,4 +1,4 @@
-#include "bfs.hpp"
+#include "graph.hpp"
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -404,7 +404,8 @@ void Graph::stronglyConnectCompents(int startVertex_in )
 	cout<<"SCC results: \n";
 	dfs(startVertex_in);
 	exchangePointerForGT();
-	Vertex* temp = GT;
+	Vertex* temp = GT;//这里是原来的图
+	//进行转置
 	while(temp != NULL)
 	{
 		Node *nodePtr = temp->getHeadNode();
@@ -416,17 +417,17 @@ void Graph::stronglyConnectCompents(int startVertex_in )
 		temp = temp->getNextVertex();
 	}
 
-	temp = topologicalSort;
+	temp = topologicalSort;//原来的图不用了，直接扔了
 	int time = 0;
 	while(temp != NULL)
 	{
 		Vertex* vertexPtr = this->headVertex;
-		while(vertexPtr != NULL)
+		while(vertexPtr != NULL)//查找拓扑排序最先并且没有访问过的节点，进行访问
 		{
 			if(vertexPtr->getVertexId() == temp->getVertexId()  && vertexPtr->getColor() == white)
 			{
 				dfsSub(vertexPtr, time);
-				cout<<endl;
+				cout<<endl;//每次访问完一个子树就会打出一个换行，表示一个强连通子图
 				break;
 			}
 			vertexPtr = vertexPtr->getNextVertex();
