@@ -529,13 +529,13 @@ void Graph::kruskal()
 	while(this->list_set[0][0] < this->vertexNumber+1)
 	{
 		Node newNode = pritree.popHead();
-		//cout<<"1  "<<list_set[0][0]<<endl;
-		int posf = -1, post = -1, pos1 = 0,pos2 = 0;
-		find(newNode,posf, post,pos1,pos2);
+		//posf是下标靠前的某一行的下标，post是下标靠后的某一行的下标，pos1和pos2是找到的
+		int posf = -1, post = -1;
+		find(newNode,posf, post);
 		if(posf != post)
-		{
-			cout<<pos1<<"        "<<pos2<<"            "<<endl;
-			merge(posf,post);
+		{//如果这两个元素不再同一个集合中，那么合并这两个集合
+			cout<<newNode.getFromId()<<"        "<<newNode.getToId()<<"            "<<endl;
+			merge(posf,post);//合并两个集合
 		}
 	}
 
@@ -543,22 +543,23 @@ void Graph::kruskal()
 
 void Graph::prim(int startId)
 {
-  set<int> setInt;
+  set<int> setInt;//这个集合用来存放已经被加进来的顶点
   setInt.insert(startId);
   cout<<"from     "<<"to        "<<"weigh\n";
   while(setInt.size() < this->vertexNumber)//until all vertexes add to setInt
   {
     Pritree<Node> pritree;
     for(set<int>::iterator it = setInt.begin(); it != setInt.end(); it++)
-    {//add all the cut edge to priority queue
+    {//把这个集合所有的割边都加进来
       Vertex* vertexPtr = this->headVertex;
       while(vertexPtr != NULL)
-      {//find the vertex which in setInt now
+      {//先在顶点链表中找到set中的某个顶点
         if(vertexPtr->getVertexId() == (*it))
         {
           Node *nodePtr = vertexPtr->getHeadNode();
           while(nodePtr != NULL)
-          {
+          {//然后再去看，这条边是不是割边，也就是看它指向的顶点是狗已经在setInt中了
+						//如果这个顶点不再集合中，那么他就是一个待选顶点
             if(setInt.find(nodePtr->getToId()) == setInt.end())
             {//add cut edge to priority queue
               pritree.insert(*nodePtr);
@@ -570,8 +571,8 @@ void Graph::prim(int startId)
         vertexPtr = vertexPtr->getNextVertex();
       }
     }
-    Node newNode = pritree.popHead();
-    setInt.insert(newNode.getToId());
+    Node newNode = pritree.popHead();//弹出权值最小的边
+    setInt.insert(newNode.getToId());//把这个边指向的顶点加进集合中
     cout<<newNode.getFromId()<<"        "<<newNode.getToId()<<"           "<<newNode.getWeight()<<endl;
   }
 }
@@ -614,7 +615,7 @@ void Graph::initial(Pritree<Node>& pritree)
   }
 }
 
-void 	Graph::find(Node& newNode, int& posf, int& post, int& pos1, int& pos2)
+void 	Graph::find(Node& newNode, int& posf, int& post)
 {
 	for(int count1 = 0;count1 < this->vertexNumber;count1++ )
 	{
@@ -623,12 +624,10 @@ void 	Graph::find(Node& newNode, int& posf, int& post, int& pos1, int& pos2)
 			if(newNode.getFromId() == list_set[count1][count2])
 			{
 				posf = count1;
-				pos1 = list_set[count1][count2];
 			}
 			if(newNode.getToId() == list_set[count1][count2])
 			{
 				post = count1;
-				pos2 = list_set[count1][count2];
 			}
 		}
 		if(posf >= 0 && post >= 0)

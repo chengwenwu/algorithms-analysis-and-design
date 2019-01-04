@@ -21,7 +21,7 @@ public:
   T popHead();
 
 
-  //DELETE a elemet
+  //从队列中删除ele_in元素，使用传进来的equal函数来检查队列中的元素是否和传进来的ele_in相等。
   void delete_ele(T ele_in,bool(*equal)(T t1,T t2));
 
 

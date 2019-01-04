@@ -104,6 +104,6 @@ private:
 	*it will be used in kruskal
 	*/
 	void initial(Pritree<Node>& pritree);
-	void find(Node& newNode, int& posf, int& post, int& pos1, int& pos2);
+	void find(Node& newNode, int& posf, int& post);
 	void merge(int& posf, int& post);
 };

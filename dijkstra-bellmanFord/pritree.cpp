@@ -10,6 +10,7 @@ Pritree<T>::Pritree()
   this->btree = new T[6];
   this->length = 0;
   this->maxLength = 5;
+  //maxLength和真正拥有的空间不一样是为了把各个参数和PPT上面的东西对应上，降低写程序
 }
 
 //free all the space
@@ -73,10 +74,11 @@ template<class T>
 void Pritree<T>::delete_ele(T ele_in,bool(*equal)(T t1,T t2))
 {
   int index = -1;
-  for(int counter = 0; counter < this->length; counter++)
+  for(int counter = 1; counter <= this->length; counter++)
   {
     if((*equal)(this->btree[counter], ele_in))
     {
+      //cout<<"hahah";
       index = counter;
       break;
     }

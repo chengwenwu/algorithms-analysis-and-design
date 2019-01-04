@@ -79,10 +79,16 @@ public:
   void kruskal();
   void prim(int startTd);
 	void dijkstra(int startId);
+	void bellmanFord(int startId);
 	/*
 	*find vertex according to the Id
 	*/
 	Vertex* findVerAccId(int Id_in);
+	//打印出图
+	void printGraph();
+
+	//查错辅助函数
+	void debug();
 private:
 	Vertex* headVertex;
 	TypeOfGraph graphType;
@@ -116,7 +122,7 @@ private:
 	/*
 	*it will be used in dijkstra
 	*/
-	void initialForDij(Pritree<Vertex>& pritree);
+	void initialForDij(Pritree<Vertex>& pritree, int startId);
 };
 
 bool equal(Vertex t1, Vertex t2);

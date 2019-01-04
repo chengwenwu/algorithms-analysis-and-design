@@ -622,16 +622,84 @@ Vertex* Graph::findVerAccId(int Id_in)
 }
 
 void Graph::dijkstra(int startId)
-{
+{//先把它队列中删除，然后找到它的邻居顶点并更新节点的值直到队列为空
 	Pritree<Vertex> pritree;
-	initialForDij(pritree);
-	Vertex* temptr = findVerAccId(startId);
-	bool (*pf) (Vertex, Vertex) = equal;
-	pritree.delete_ele(*temptr, pf);
-	temptr->setDiscovery(0);
+	initialForDij(pritree, startId);
 	while(pritree.getSize() != 0)
 	{
-			pritree.popHead();
+			Vertex temp =  pritree.popHead();//找到discovery最小的值
+			Vertex* vertexp = findVerAccId(temp.getVertexId());
+			Node* neighbor = vertexp->getHeadNode();//找到邻居节点
+		//	cout<<temp.getVertexId()<<"->  ";
+			while(neighbor != NULL)//对每一个邻居节点进行循环中的操作
+			{
+				Vertex* tempNe = neighbor->getVertex();//与弹出来的顶点相邻的顶点
+				if(tempNe->getDiscovery() > temp.getDiscovery() + neighbor->getWeight())
+				{
+					tempNe->setDiscovery(temp.getDiscovery() + neighbor->getWeight());
+					tempNe->setParent(vertexp);//记住其父节点
+					pritree.delete_ele(*tempNe, equal);//从优先队列中删除
+					pritree.insert(*tempNe);//然后插入新的更新后的顶点
+				}
+				neighbor = neighbor->getNextNode();
+			}
+	}
+
+//打印出最后的结果
+	Vertex* for_out_ver = this->headVertex;
+	cout<<"dijkstra:"<<endl;
+	while(for_out_ver != NULL)
+	{
+		for_out_ver = for_out_ver->getNextVertex();
+		if(for_out_ver != NULL)
+		  cout<<(for_out_ver->getParent())->getVertexId()<<"->"<<for_out_ver->getVertexId()<<endl;
+	}
+
+}
+
+void Graph::bellmanFord(int startId)
+{
+	//初始化
+	Vertex* vptr = this->headVertex;
+	while(vptr != NULL)
+	{
+		if(vptr->getVertexId() == startId)
+			vptr->setDiscovery(0);
+		else
+			vptr->setDiscovery(INT_MAX);
+
+		vptr->setParent(NULL);
+		vptr = vptr->getNextVertex();
+	}
+
+	//最外层迭代顶点数目减一次
+	for(int counter0 = 1; counter0 < this->vertexNumber; counter0++)
+	{
+		vptr = this->headVertex;
+		while(vptr != NULL)//遍历每一个顶点
+		{
+			Node* eptr = vptr->getHeadNode();
+			while(eptr != NULL)//遍历每一条边
+			{
+				Vertex* vtoptr = eptr->getVertex();
+				if( vtoptr->getDiscovery()> vptr->getDiscovery()+eptr->getWeight())
+				{
+					vtoptr->setDiscovery(vptr->getDiscovery()+eptr->getWeight());
+					vtoptr->setParent(vptr);
+				}
+				eptr = eptr->getNextNode();
+			}
+			vptr = vptr->getNextVertex();
+		}
+	}
+
+	Vertex* for_out_ver = this->headVertex;
+	cout<<"bellman-ford:"<<endl;
+	while(for_out_ver != NULL)
+	{
+		for_out_ver = for_out_ver->getNextVertex();
+		if(for_out_ver != NULL)
+			cout<<(for_out_ver->getParent())->getVertexId()<<"->"<<for_out_ver->getVertexId()<<endl;
 	}
 
 }
@@ -727,13 +795,17 @@ void Graph::merge(int& posf, int& post)
 *it will be used in dijkstra
 */
 //priority queue , color  and discovery
-void Graph::initialForDij(Pritree<Vertex>& pritree)
-{
+void Graph::initialForDij(Pritree<Vertex>& pritree, int startId)
+{//只能用唯一标识符Id来识别每一个顶点
 	Vertex* vertexPtr = this->headVertex;
   while(vertexPtr != NULL)
   {//add all the vertex into priority queue
+		if(vertexPtr->getVertexId() == startId)
+			vertexPtr->setDiscovery(0);
+		else
+			vertexPtr->setDiscovery(INT_MAX);
+
 		vertexPtr->setColor(white);
-		vertexPtr->setDiscovery(INT_MAX);
 		vertexPtr->setParent(NULL);
     pritree.insert(*vertexPtr);
     vertexPtr  = vertexPtr->getNextVertex();
@@ -745,4 +817,21 @@ bool equal(Vertex t1, Vertex t2)
 	if(t1.getVertexId() == t2.getVertexId())
 		return true;
 	return false;
+}
+
+
+void Graph::printGraph()
+{
+	cout<<"from          "<<"to        "<<"weight    "<<endl;
+	Vertex* head = this->headVertex;
+	while(head != NULL)
+	{
+		Node* headN = head->getHeadNode();
+		while(headN != NULL)
+		{
+			cout<< head->getVertexId()<<"          "<<headN->getVertex()->getVertexId()<<"        "<<headN->getWeight()<<"    "<<endl;
+			headN = headN->getNextNode();
+		}
+		head = head->getNextVertex();
+	}
 }

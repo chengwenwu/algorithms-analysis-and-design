@@ -4,25 +4,6 @@
 #include <iostream>
 int main()
 {
-  Graph graph;
-	graph.setGraphType(directed);
-	if(!(graph.addEdge(1,2) && graph.addEdge(2,3)&&
-			graph.addEdge(3,1)&& graph.addEdge(2,4)&&
-			graph.addEdge(5,1)&& graph.addEdge(5,6)&&
-			graph.addEdge(5,7)&&graph.addEdge(7,6))
-	)
-	{
-		cout<<"Add edge error!\n";
-		exit(-1);
-	}
-	if(!graph.bfs(1))
-		cout<<"BFS Error\n";
-	if(!graph.dfs(1))
-		cout<<"DFS Error\n";
-	graph.TopologicalSort();
-  cout<<endl;
-	graph.stronglyConnectCompents(1);
-
   Graph graph1;
 	graph1.setGraphType(undirected);
 	if(!(graph1.addEdge(1,2,9) && graph1.addEdge(1,4,1)&&
