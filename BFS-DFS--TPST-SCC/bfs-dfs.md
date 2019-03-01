@@ -1,4 +1,5 @@
 [实验代码（github)](https://github.com/chengwenwu/algorithms-analysis-and-design/tree/master/BFS-DFS--TPST-SCC)
+
 # 一、实验内容
 - 实现广度优先搜索（BFS）和深度优先搜索（DFS)
 - 用下面的图进行测试
@@ -7,6 +8,7 @@
 从1号顶点开始
 BFS:1->5->2->4->3
 DFS:1->5->2->3->4
+
 # 二、理论准备
  - 简单图：没有重复边和自环的图。
  - 顶点诱导子图：顶点子集中的任何两个顶点之间都存在边。
