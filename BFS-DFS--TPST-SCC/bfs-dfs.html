@@ -1,0 +1,141 @@
+<article class="baidu_pl">
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post" style="height: 2364px; overflow: hidden;">
+								<div class="article-copyright">
+                  					
+					版权声明：本文为博主原创文章，转载请标明出处					https://blog.csdn.net/C2681595858/article/details/85603703				</div>
+								            <div id="content_views" class="markdown_views prism-dracula">
+							<!-- flowchart 箭头图标 勿删 -->
+							<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path></svg>
+							<p></p><div class="toc"><h3><a name="t0"></a>文章目录</h3><ul><li><a href="#_2" rel="nofollow" target="_self">一、实验内容</a></li><li><a href="#_10" rel="nofollow" target="_self">二、理论准备</a></li><ul><li><a href="#1BFS_14" rel="nofollow" target="_self">1、BFS</a></li><li><a href="#2DFS_31" rel="nofollow" target="_self">2、DFS</a></li></ul><li><a href="#_41" rel="nofollow" target="_self">三、实验环境</a></li><li><a href="#_45" rel="nofollow" target="_self">四、实验过程</a></li><ul><li><a href="#1_51" rel="nofollow" target="_self">1、代码架构：</a></li></ul><li><a href="#_96" rel="nofollow" target="_self">五、实验结果</a></li><li><a href="#_100" rel="nofollow" target="_self">六、实验总结</a></li></ul></div><br>
+<a href="https://github.com/chengwenwu/algorithms-analysis-and-design/tree/master/BFS-DFS--TPST-SCC" rel="nofollow" target="_blank">实验代码（github)</a><p></p>
+<h1><a name="t1"></a><a id="_2" target="_blank"></a>一、实验内容</h1>
+<ul>
+<li>实现广度优先搜索（BFS）和深度优先搜索（DFS)</li>
+<li>用下面的图进行测试<br>
+<img src="https://img-blog.csdnimg.cn/20190102185204546.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0MyNjgxNTk1ODU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>预期结果：<br>
+从1号顶点开始<br>
+BFS:1-&gt;5-&gt;2-&gt;4-&gt;3<br>
+DFS:1-&gt;5-&gt;2-&gt;3-&gt;4</li>
+</ul>
+<h1><a name="t2"></a><a id="_10" target="_blank"></a>二、理论准备</h1>
+<ul>
+<li>简单图：没有重复边和自环的图。</li>
+<li>顶点诱导子图：顶点子集中的任何两个顶点之间都存在边。</li>
+</ul>
+<h2><a name="t3"></a><a id="1BFS_14" target="_blank"></a>1、BFS</h2>
+<p>BFS核心思想：</p>
+<ul>
+<li>伪码中V[G]表示图G中的所有顶点，s表示BFS开始的顶点。</li>
+<li>color[u]表示顶点u的颜色，其中white表示没有访问过这个顶点，gray表示访问过了，但是还没有访问完成，black表示已经访问结束了。</li>
+<li>d[u]表示这个顶点距离起始顶点s的距离。</li>
+<li><span class="katex--inline"><span class="katex"><span class="katex-mathml"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mrow><mi>&amp;#x3C0;</mi></mrow><annotation encoding=&quot;application/x-tex&quot;>      \pi</annotation></semantics></math>" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 0.63em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px; font-size: 107%;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="semantics" id="MathJax-Span-3"><span class="mrow" id="MathJax-Span-4"><span class="mi" id="MathJax-Span-5" style="font-family: MathJax_Math-italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.002em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.049em; border-left: 0px solid; width: 0px; height: 0.571em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">      \pi</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-1"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></script></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathit" style="margin-right: 0.03588em;">π</span></span></span></span></span>[u]表示这个顶点的父节点。</li>
+<li>Q是一个先进先出队列。</li>
+<li>Adj[u]表示U的所有邻居节点。
+<ul>
+<li>伪码表示：<br>
+<img src="https://img-blog.csdnimg.cn/2019010211481371.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0MyNjgxNTk1ODU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+<li>解读伪码：
+<ul>
+<li>首先是初始化，把每个顶点的color都设置成white，与原点的距离d设置成无穷，父节点<span class="katex--inline"><span class="katex"><span class="katex-mathml"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mrow><mi>&amp;#x3C0;</mi></mrow><annotation encoding=&quot;application/x-tex&quot;>      \pi</annotation></semantics></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-6" style="width: 0.63em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px; font-size: 107%;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="mrow" id="MathJax-Span-7"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="semantics" id="MathJax-Span-8"><span class="mrow" id="MathJax-Span-9"><span class="mi" id="MathJax-Span-10" style="font-family: MathJax_Math-italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.002em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.049em; border-left: 0px solid; width: 0px; height: 0.571em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">      \pi</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-2"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></script></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathit" style="margin-right: 0.03588em;">π</span></span></span></span></span>设置为空。</li>
+<li>然后把原点s的color设为gray，距离d设为0，父节点<span class="katex--inline"><span class="katex"><span class="katex-mathml"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mrow><mi>&amp;#x3C0;</mi></mrow><annotation encoding=&quot;application/x-tex&quot;>      \pi</annotation></semantics></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-11" style="width: 0.63em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px; font-size: 107%;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="mrow" id="MathJax-Span-12"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="semantics" id="MathJax-Span-13"><span class="mrow" id="MathJax-Span-14"><span class="mi" id="MathJax-Span-15" style="font-family: MathJax_Math-italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.002em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.049em; border-left: 0px solid; width: 0px; height: 0.571em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">      \pi</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-3"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></script></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathit" style="margin-right: 0.03588em;">π</span></span></span></span></span>设为空，并加进队列Q中。</li>
+<li>然后进入循环。</li>
+<li>循环中队列Q的头部u出队，然后访问与它相邻的节点，并且如果这个节点没有被访问过（color为white)那么，把它的color标记为gray（表示已经访问过了），把它的父节点<span class="katex--inline"><span class="katex"><span class="katex-mathml"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mrow><mi>&amp;#x3C0;</mi></mrow><annotation encoding=&quot;application/x-tex&quot;>      \pi</annotation></semantics></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-16" style="width: 0.63em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px; font-size: 107%;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="mrow" id="MathJax-Span-17"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="semantics" id="MathJax-Span-18"><span class="mrow" id="MathJax-Span-19"><span class="mi" id="MathJax-Span-20" style="font-family: MathJax_Math-italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.002em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.049em; border-left: 0px solid; width: 0px; height: 0.571em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">      \pi</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-4"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></script></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathit" style="margin-right: 0.03588em;">π</span></span></span></span></span>设为u,距离d设为它父节点u的距离加一，并把它入队。</li>
+<li>最后在把已经弹出的队头的color设为black，说明已经处理结束。</li>
+</ul>
+</li>
+</ul>
+<h2><a name="t4"></a><a id="2DFS_31" target="_blank"></a>2、DFS</h2>
+<ul>
+<li>伪码表示：<br>
+这里面的符号表示和BFS中是相同的，下面的算法用了递归的方法实现，当然也可以用栈来实现。<br>
+<img src="https://img-blog.csdnimg.cn/20190102120316366.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0MyNjgxNTk1ODU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>解读伪码：
+<ul>
+<li>这个伪码写的不是很规范，没有指明要从哪个节点开始，所以我们假设他就从节点链表的第一个节点开始。</li>
+<li>首先是初始化各个节点，颜色color设为白色white,父节点<span class="katex--inline"><span class="katex"><span class="katex-mathml"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mrow><mi>&amp;#x3C0;</mi></mrow><annotation encoding=&quot;application/x-tex&quot;>      \pi</annotation></semantics></math>" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-21" style="width: 0.63em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px; font-size: 107%;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="mrow" id="MathJax-Span-22"><span style="display: inline-block; position: relative; width: 0.581em; height: 0px;"><span style="position: absolute; clip: rect(3.429em, 1000.57em, 4.153em, -999.982em); top: -4.003em; left: 0em;"><span class="semantics" id="MathJax-Span-23"><span class="mrow" id="MathJax-Span-24"><span class="mi" id="MathJax-Span-25" style="font-family: MathJax_Math-italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.002em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.008em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.049em; border-left: 0px solid; width: 0px; height: 0.571em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">      \pi</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-5"><math><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></script></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathit" style="margin-right: 0.03588em;">π</span></span></span></span></span>设为空null，开始时间time设为0.</li>
+<li>然后进入循环开始DFS过程，首先查看这个节点是否被访问过（color是否是白色white，若是则没有访问过），如果没有访问过，那么就访问它，具体访问过程在DFS-VISIT()函数中。</li>
+<li>下面我们来看下DFS是如何访问一个节点的，首先把它的颜色color设置为灰色gray,然后设置它的发现时间d，设置为当前时间加一，同时当前时间time也加一。然后再看与它相邻的某一个节点，如果是白色的用相同地方式去访问它（开始递归）</li>
+<li>递归过程： 然后一直找该节点的下一个相邻节点，直到最后某个节点它的所有相邻节点都被访问过，就开始回退，回退时把该节点的完成使时间设置为time，同时time加一，颜色设置为黑色，表示处理已经结束。一直回退直到完成最先访问的那个节点。</li>
+</ul>
+</li>
+</ul>
+<h1><a name="t5"></a><a id="_41" target="_blank"></a>三、实验环境</h1>
+<ul>
+<li>windows10</li>
+<li>g++命令行编译器</li>
+<li>c++语言</li>
+</ul>
+<h1><a name="t6"></a><a id="_45" target="_blank"></a>四、实验过程</h1>
+<ul>
+<li>代码我已经发到<a href="https://github.com/chengwenwu/algorithms-analysis-and-design/tree/master/bfsdfs" rel="nofollow" target="_blank">github</a>上了</li>
+<li>文件依赖：
+<ul>
+<li>graph.h里面声明了各个类。</li>
+<li>graph.cpp里面实现了各个类。</li>
+<li>main.cpp中是构建了一个图，并调用了相关算法。</li>
+</ul>
+</li>
+</ul>
+<h2><a name="t7"></a><a id="1_51" target="_blank"></a>1、代码架构：</h2>
+<ul>
+<li>Node类，这个类名起的有点尴尬，它表示的是边，本来给它起个Edge这样的名字可能会比较好，但是一开始他就是链表中的一个节点，所以直接就node了。它有两个私有变量Vertex和nextNode。vertex是它指向的那个顶点，nextNode是下一个Node。这样写的目的是，一个节点，从它出发可能会有不止一条边，所以我们把所有从它出发能够到达的节点就用一个链表保存下来。</li>
+</ul>
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)">Vertex<span class="token operator">*</span> vertex<span class="token punctuation">;</span>
+Node<span class="token operator">*</span> nextNode<span class="token punctuation">;</span>
+<div class="hljs-button" data-title="复制"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li></ul></pre>
+<ul>
+<li>Vertex类是表示节点，它的私有变量比较多,具体如下。</li>
+</ul>
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)"><span class="token keyword">int</span> vertexId<span class="token punctuation">;</span><span class="token comment">//顶点的唯一标识符</span>
+	Vertex<span class="token operator">*</span> nextVertex<span class="token punctuation">;</span><span class="token comment">//把所有顶点放在一个链表中，这个指针指向它的下一个顶点</span>
+	Node<span class="token operator">*</span> headNode<span class="token punctuation">;</span><span class="token comment">//这里存放与它相邻的顶点</span>
+	Vertex<span class="token operator">*</span> parent<span class="token punctuation">;</span><span class="token comment">//这里存放它的父节点</span>
+	Color color<span class="token punctuation">;</span><span class="token comment">//这是它的颜色</span>
+	<span class="token keyword">int</span> discovery<span class="token punctuation">;</span><span class="token comment">//这是它的发现时间（DFS中）</span>
+	<span class="token keyword">int</span> finish<span class="token punctuation">;</span><span class="token comment">//这是它的完成时间（BFS中）</span>
+<div class="hljs-button" data-title="复制"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre>
+<ul>
+<li>然后就是最大的类Graph,</li>
+</ul>
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)">Vertex<span class="token operator">*</span> headVertex<span class="token punctuation">;</span><span class="token comment">//这里存放它的所有顶点</span>
+TypeOfGraph graphType<span class="token punctuation">;</span><span class="token comment">//这里存放这个图是有向图还是无向图</span>
+Vertex<span class="token operator">*</span> topologicalSort<span class="token punctuation">;</span><span class="token comment">//这里存放的是拓扑排序的结果</span>
+Vertex<span class="token operator">*</span> GT<span class="token punctuation">;</span><span class="token comment">//这里存放把所有边反向后的结果，主要用在求解强连通图的过程中。</span>
+<div class="hljs-button" data-title="复制"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre>
+<ul>
+<li>好了代码架构就说到这里了。然后各个类里面的方法无非就是get和set来设置或者获取一些属性。</li>
+<li>Graph里面的<code>bool addEdge(int fromId, int toId);</code>方法是在途中加入一个边，fromId是起始顶点的Id，toId是到达顶点的Id，如果这是有向图就添加这一条边。如果是无向图，那么这一次操作会把它的toId到fromId的边也添加进去。</li>
+<li><code>void reset();</code>这个函数负责把所有顶点的父节点，颜色，发现时间，结束时间等等进行初始化。</li>
+<li>然后还有两个函数,是私有的，功能在注释中也讲清楚了。</li>
+<li>其他的函数都是相关算法函数，都是按照伪码来实现的。</li>
+</ul>
+<pre class="prettyprint"><code class="prism language-cpp has-numbering" onclick="mdcp.copyCode(event)"><span class="token comment">/*
+	*检查 fromVertex 和 toVertex 是否存在
+	*如果没有则把他们添加到顶点列表
+	*/</span>
+	<span class="token keyword">bool</span> <span class="token function">addAllVertex</span><span class="token punctuation">(</span><span class="token keyword">int</span> fromVertexId_in<span class="token punctuation">,</span> <span class="token keyword">int</span> toVertexId_in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">/*
+	*添加一条从fromVertexId_in到toVertexId_in的边
+	*这两个顶点必须都已经在顶点列表中才能调用这个函数
+	*/</span>
+	<span class="token keyword">bool</span> <span class="token function">addOneEdge</span><span class="token punctuation">(</span><span class="token keyword">int</span> fromVertexId_in<span class="token punctuation">,</span> <span class="token keyword">int</span> toVertexId_in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<div class="hljs-button" data-title="复制"></div></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li></ul></pre>
+<h1><a name="t8"></a><a id="_96" target="_blank"></a>五、实验结果</h1>
+<ul>
+<li>由于这次关于图的前几个作业都是在同一个框架下完成的，所以忽略后面拓扑排序和强连通图的相关内容。</li>
+<li>结果如图：<br>
+<img src="https://img-blog.csdnimg.cn/2019010218545861.png" alt="在这里插入图片描述"></li>
+</ul>
+<h1><a name="t9"></a><a id="_100" target="_blank"></a>六、实验总结</h1>
+<ul>
+<li>实验好久之前做完了，赶在期末考试补写实验报告，都不知道写啥了，感觉自己把这个弄得有点复杂，但是做出来结果了，只能说还可以吧，就这样了，后面几个实验还没做完，那几个实验边做边写实验报告，感想写完整一些吧。</li>
+</ul>
+
+            </div>
+						<link href="https://csdnimg.cn/release/phoenix/mdeditor/markdown_views-7b4cdcb592.css" rel="stylesheet">
+                </div>
+	</article>
