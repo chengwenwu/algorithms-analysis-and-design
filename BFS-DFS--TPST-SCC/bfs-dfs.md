@@ -1,4 +1,3 @@
-@[toc]
 [实验代码（github)](https://github.com/chengwenwu/algorithms-analysis-and-design/tree/master/BFS-DFS--TPST-SCC)
 # 一、实验内容
 - 实现广度优先搜索（BFS）和深度优先搜索（DFS)
